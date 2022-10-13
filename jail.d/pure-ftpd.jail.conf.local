@@ -1,0 +1,8 @@
+[pure-ftpd]
+enabled  = true
+findtime = 3600
+maxretry = 5
+bantime  = 72000
+port     = ftp,2121,sftp,ftps
+filter   = pure-ftpd
+logpath  = /var/log/syslog

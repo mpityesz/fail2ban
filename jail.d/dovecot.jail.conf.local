@@ -1,0 +1,7 @@
+[dovecot]
+enabled  = true
+findtime = 3600
+maxretry = 5
+bantime  = 72000
+filter   = dovecot
+logpath  = /var/log/mail.log

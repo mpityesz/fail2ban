@@ -1,0 +1,8 @@
+[postfix-sasl]
+enabled  = true
+findtime = 3600
+maxretry = 5
+bantime  = 72000
+port     = smtp
+filter   = postfix[mode=auth]
+logpath  = /var/log/mail.log
