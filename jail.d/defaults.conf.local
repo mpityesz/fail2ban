@@ -1,0 +1,10 @@
+## Process order
+##
+## jail.conf
+## jail.d/*.conf (in alphabetical order)
+## jail.local
+## jail.d/*.local (in alphabetical order)
+
+[DEFAULT]
+
+ignoreip = 127.0.0.0/8 10.0.0.0/8 172.16.0.0/12 192.168.0.0/16 79.172.195.155 87.229.111.223 87.229.111.226 80.77.112.0/24 80.77.122.0/24 80.77.123.0/24
