@@ -1,16 +1,80 @@
-[wordpress]
-enabled   = true
+# Fail2Ban jail configuration for WordPress specific rules
+#
+# Place this file in /etc/fail2ban/jail.d/wordpress.local
+#
+# IMPORTANT: You MUST review and update the 'logpath' entries below
+# to match the actual locations of your web server's access and error log files!
+# Also, adjust bantime, findtime, and maxretry values as needed for your environment.
 
-maxretry  = 3
-#bantime   = 24h
-bantime  = 72000
+[DEFAULT]
+# Default settings can be placed here, but we'll define specifics per jail.
+# Example: Set default ban action if needed (often handled globally in jail.conf)
+# banaction = iptables-multiport
+# banaction_allports = iptables-allports
+
+# === WordPress XML-RPC Jail ===
+# Blocks access attempts to xmlrpc.php.
+[wordpress-xmlrpc]
+enabled  = true
 port     = http,https
-filter    = wordpress
-
-banaction = %(banaction_allports)s
-#action   = iptables-multiport[name=postfix, port="http,https,smtp,submission,pop3,pop3s,imap,imaps,sieve", protocol=tcp]
-#action = iptables-multiport[name=wordpress, port="http,https", protocol=tcp]
-
+filter   = wordpress-xmlrpc
+# --- IMPORTANT: Set the correct path to your access log(s) ---
+# Common paths - uncomment and/or add your specific paths:
+# logpath = /var/log/apache2/access.log
+#           /var/log/httpd/access_log
 logpath = /var/log/ispconfig/httpd/*/access.log
+maxretry = 1
+findtime = 600
+bantime  = 72000
 
-#ignoreip =
+
+# === WordPress HTTP Basic Auth Jail ===
+# Blocks failed HTTP Basic Authentication attempts (e.g., for wp-admin).
+[wordpress-httpauth]
+enabled  = true
+port     = http,https
+filter   = wordpress-httpauth
+# --- IMPORTANT: Set the correct path to your error log(s) ---
+# Common paths - uncomment and/or add your specific paths:
+# logpath = /var/log/apache2/error.log
+#           /var/log/httpd/error_log
+logpath = /var/log/ispconfig/httpd/*/error.log
+maxretry = 3
+findtime = 600
+bantime  = 72000
+
+
+# === WordPress Repeated 404 Jail ===
+# Blocks clients generating excessive 404 Not Found errors.
+[wordpress-404]
+enabled  = true
+port     = http,https
+filter   = wordpress-404
+# --- IMPORTANT: Set the correct path to your access log(s) ---
+# Use the same access log paths as for wordpress-xmlrpc.
+# logpath = /var/log/apache2/access.log
+#           /var/log/httpd/access_log
+logpath = /var/log/ispconfig/httpd/*/access.log
+maxretry = 10
+findtime = 300
+bantime  = 1800
+
+
+
+
+[wordpress]
+#enabled   = true
+
+#maxretry  = 3
+##bantime   = 24h
+#bantime  = 72000
+#port     = http,https
+#filter    = wordpress
+
+#banaction = %(banaction_allports)s
+##action   = iptables-multiport[name=postfix, port="http,https,smtp,submission,pop3,pop3s,imap,imaps,sieve", protocol=tcp]
+##action = iptables-multiport[name=wordpress, port="http,https", protocol=tcp]
+
+#logpath = /var/log/ispconfig/httpd/*/access.log
+
+##ignoreip =
