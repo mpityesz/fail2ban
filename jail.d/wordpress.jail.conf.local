@@ -33,7 +33,7 @@ bantime  = 72000
 [wordpress-httpauth]
 enabled  = true
 port     = http,https
-filter   = wordpress-httpauth
+filter   = wordpress-http-auth
 # --- IMPORTANT: Set the correct path to your error log(s) ---
 # Common paths - uncomment and/or add your specific paths:
 # logpath = /var/log/apache2/error.log
